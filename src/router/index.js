@@ -1,4 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import CreateView from '../views/CreateView.vue'
+import DeletedView from '../views/DeletedView.vue'
+import Favourites from '../views/FavouritesView.vue'
 import HomeView from '../views/HomeView.vue'
 import NotFound from '../views/NotFound.vue'
 
@@ -13,17 +16,17 @@ const router = createRouter({
     {
       path: '/favourites',
       name: 'favourites',
-      component: () => import('../views/FavouritesView.vue')
+      component: Favourites
     },
     {
       path: '/deleted',
       name: 'deleted',
-      component: () => import('../views/DeletedView.vue')
+      component: DeletedView
     },
     {
       path: '/create',
       name: 'create',
-      component: () => import('../views/CreateView.vue')
+      component: CreateView
     },
     {
       path: '/:pathMatch(.*)*',

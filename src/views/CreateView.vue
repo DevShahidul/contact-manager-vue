@@ -1,9 +1,11 @@
 <script>
-  import Button from '../components/Button.vue';
+import { mapState } from 'pinia';
+import Button from '../components/Button.vue';
 import Form from '../components/Form.vue';
 import InputField from '../components/InputField.vue';
 import InputGroup from '../components/InputGroup.vue';
 import Label from '../components/Label.vue';
+import { useContactStore } from '../stores/ContactStore';
   export default {
     components: {
       Form,
@@ -12,25 +14,9 @@ import Label from '../components/Label.vue';
       InputField,
       InputGroup,
     },
-    data() {
-      return {
-        contact:{
-          name: "",
-          email: "",
-          address: {
-            street: "",
-            suite: "",
-            city: "",
-            zipcode: "",
-            geo: {
-              lat: "",
-              lng: ""
-            }
-          },
-          phone: "",
-        }
-      }
-    },
+    computed: {
+      ...mapState(useContactStore, ['contact']),
+    }
   }
 </script>
 <template>

@@ -1,26 +1,11 @@
 import { defineStore } from 'pinia';
 
 export const useContactStore = defineStore('contacts', {
-    // State 
-    state: () => ({
-        favourites: [],
+  // State
+    state: () => ({ 
+      // favourites: [],
         deletedContacts: [],
-        contact:{
-            name: "",
-            email: "",
-            address: {
-              street: "",
-              suite: "",
-              city: "",
-              zipcode: "",
-              geo: {
-                lat: "",
-                lng: ""
-              }
-            },
-          phone: "",
-          isFav: false,
-        },
+        contact:{},
         contacts: [
           {
             id: 1,
@@ -112,34 +97,36 @@ export const useContactStore = defineStore('contacts', {
 
     // Actions
     actions: {
-        handleFav(contact){
-            contact.isFav = !contact.isFav
-            if(contact.isFav) {
-              this.favourites.push(contact)
-            }else{
-              this.favourites.shift(contact)
-            }
-          },
-          handleEdit(contact){
-            this.contact = contact
-          },
-          handleDelete(contact){
-            this.deletedContacts.push(contact)
-            this.allContacts = this.allContacts.filter(item => item !== contact)
-            this.favourites = this.favourites.filter(item => item !== contact)
-          },
+      toggleFav(id){
+        this.contacts = this.contacts.map(contact => {
+          if(contact.id === id){
+            contact.isFav = !contact.isFav;
+          }
+          return contact;
+        });
+      },
+      editContact(contact){
+        this.contact = contact;
+      },
+      deleteContact(id){
+        this.deletedContacts.push(...this.contacts.filter( (item) => item.id === id ));
+        this.contacts = this.contacts.filter( contact => contact.id !== id);
+        this.contacts.map( contact => {
+          if(contact.id === id) {
+            contact.isFav = false;
+          }
+          return contact;
+        })
+      },
     },
 
     // Getters
     getters: {
-        totalContacts(){
-            return this.allContacts.length
-        },
-        favouriteContacts(){
-            return this.favourites.length
-        },
-        totalDeletedContacts(){
-            return this.deletedContacts.length
-        }
-    },
-  })
+      totalContacts: (state) => {
+        return state.contacts.length
+      },
+      favourites: (state) => state.contacts.filter(item => item.isFav),
+      totalFavourites: (state) => state.contacts.filter(item => item.isFav).length,
+      totalDeletedContacts: (state) => state.deletedContacts.length
+    }
+});
