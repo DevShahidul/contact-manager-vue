@@ -11,7 +11,7 @@
           },
           handleEdit(){
             useContactStore().editContact(this.contact);
-            this.$router.push({ name: 'create' });
+            this.$router.push({ name: 'edit' });
           }
         },
     }

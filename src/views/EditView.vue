@@ -1,9 +1,11 @@
 <script>
+import { mapState } from 'pinia';
 import Button from '../components/Button.vue';
 import Form from '../components/Form.vue';
 import InputField from '../components/InputField.vue';
 import InputGroup from '../components/InputGroup.vue';
 import Label from '../components/Label.vue';
+import { useContactStore } from '../stores/ContactStore';
   export default {
     components: {
       Form,
@@ -14,7 +16,7 @@ import Label from '../components/Label.vue';
     },
     data(){
       return {
-        contact: {
+        updatedContact: {
           name: "",
           email: "",
           address: {
@@ -33,17 +35,19 @@ import Label from '../components/Label.vue';
       }
     },
     computed: {
-      // ...mapState(useContactStore, ['contact']),
+      ...mapState(useContactStore, ['contact']),
     },
     methods: {
-      
+      handleUpdate(){
+        console.log(this.contact);
+      }
     }
   }
 </script>
 <template>
   <div class="container max-w-5xl">
     <div class="mx-auto mt-6 md:mt-8 px-4 md:px-8 xl:px-12 py-8 md:py-12 xl:py-16 bg-white rounded-2xl shadow w-full border-t border-gray-100">
-      <Form action="home" method="post">
+      <Form @submit.prevent="handleUpdate()" method="post">
         <InputGroup>
           <Label labelFor="name" text="Name" />
           <InputField type="text" name="name" :value="contact.name" isRequired="true" />
@@ -75,8 +79,7 @@ import Label from '../components/Label.vue';
           </InputGroup>
         </div>
         <div class="pt-4">
-          <Button v-if="this.$route.path == '/create'" type="submit" @click="createContact()">Create</Button>
-          <Button v-if="this.$route.path == '/edit'" type="submit">Update</Button>
+          <Button type="submit">Update</Button>
         </div>
       </Form>
     </div>

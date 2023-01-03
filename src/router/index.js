@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import CreateView from '../views/CreateView.vue'
 import DeletedView from '../views/DeletedView.vue'
+import EditView from '../views/EditView.vue'
 import Favourites from '../views/FavouritesView.vue'
 import HomeView from '../views/HomeView.vue'
 import NotFound from '../views/NotFound.vue'
@@ -27,6 +28,11 @@ const router = createRouter({
       path: '/create',
       name: 'create',
       component: CreateView
+    },
+    {
+      path: '/edit',
+      name: 'edit',
+      component: EditView
     },
     {
       path: '/:pathMatch(.*)*',
