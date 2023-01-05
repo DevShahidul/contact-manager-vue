@@ -1,7 +1,7 @@
 <script>
+import { mapState } from 'pinia';
 import Button from '../components/Button.vue';
 import Form from '../components/Form.vue';
-import InputField from '../components/InputField.vue';
 import InputGroup from '../components/InputGroup.vue';
 import Label from '../components/Label.vue';
 import { useContactStore } from '../stores/ContactStore';
@@ -10,53 +10,55 @@ import { useContactStore } from '../stores/ContactStore';
       Form,
       Label,
       Button,
-      InputField,
       InputGroup,
     },
     data(){
       return {
-          contact: {
-            name: "",
-            email: "",
-            phone: "",
-            address: {
-              street: "",
-              suite: "",
-              city: "",
-              zipcode: "",
-            },
-            isFav: false,
+        contact: {
+          name: "",
+          email: "",
+          phone: "",
+          address: {
+            street: "",
+            suite: "",
+            city: "",
+            zipcode: "",
           },
-          
-          // {
-          //   name: "",
-          //   email: "",
-          //   phone: "",
-          //   address: {
-          //     street: "",
-          //     suite: "",
-          //     city: "",
-          //     zipcode: "",
-          //   }
-          // }
+          isFav: false,
+        },
       }
     },
     computed: {
-      // ...mapState(useContactStore, ['contact']),
+      ...mapState(useContactStore, {
+        prevContact: 'contact'
+      }),
       isCreate(){
         return this.$route.path === '/create';
+      },
+      isEdit(){
+        return this.$route.path === '/edit';
       }
     },
     methods: {
       createContact(){
         useContactStore().createContact(this.contact);
+        this.$router.push({ name: 'home' });
+      },
+      handleUpdate(){
+        useContactStore().updateContact(this.contact);
+        this.$router.push({ name: 'home' });
       },
       handleFormSubmit(){
         if(this.isCreate){
           this.createContact();
-          this.$router.push({ name: 'home' });
+        }
+        if(this.isEdit){
+          this.handleUpdate()
         }
       }
+    },
+    mounted(){
+      this.contact = this.prevContact;
     }
   }
 </script>
@@ -66,32 +68,32 @@ import { useContactStore } from '../stores/ContactStore';
       <Form @submit.prevent="handleFormSubmit" method="post">
         <InputGroup>
           <Label labelFor="name" text="Name" />
-          <input type="text" id="name" name="name" class="w-full px-2 py-1 border border-gray-200 rounded bg-gray-50" v-model="contact.name" required/>
+          <input type="text" id="name" name="name" class="input-field" v-model="contact.name" required/>
         </InputGroup>
         <InputGroup>
           <Label labelFor="email" text="Email" />
-          <input type="email" id="email" name="email" class="w-full px-2 py-1 border border-gray-200 rounded bg-gray-50" v-model="contact.email" required/>
+          <input type="email" id="email" name="email" class="input-field" v-model="contact.email" required/>
         </InputGroup>
         <InputGroup>
           <Label labelFor="phone" text="Phone" />
-          <input type="text" id="phone" name="phone" class="w-full px-2 py-1 border border-gray-200 rounded bg-gray-50" v-model="contact.phone" required/>
+          <input type="text" id="phone" name="phone" class="input-field" v-model="contact.phone" required/>
         </InputGroup>
         <InputGroup>
           <Label labelFor="street" text="Street" />
-          <input type="text" id="street" name="street" class="w-full px-2 py-1 border border-gray-200 rounded bg-gray-50" v-model="contact.address.street" />
+          <input type="text" id="street" name="street" class="input-field" v-model="contact.address.street" />
         </InputGroup>
         <div class="grid lg:grid-cols-3 flex-wrap gap-y-4 md:gap-8 col-span-2">
           <InputGroup>
             <Label labelFor="suite" text="Suite" />
-            <input type="text" id="suit" name="suit" class="w-full px-2 py-1 border border-gray-200 rounded bg-gray-50" v-model="contact.address.suite" />
+            <input type="text" id="suit" name="suit" class="input-field" v-model="contact.address.suite" />
           </InputGroup>
           <InputGroup>
             <Label labelFor="city" text="City" />
-            <input type="text" id="city" name="city" class="w-full px-2 py-1 border border-gray-200 rounded bg-gray-50" v-model="contact.address.city" />
+            <input type="text" id="city" name="city" class="input-field" v-model="contact.address.city" />
           </InputGroup>
           <InputGroup>
             <Label labelFor="zipcode" text="Zipcode" />
-            <input type="text" id="zipcode" name="zipcode" class="w-full px-2 py-1 border border-gray-200 rounded bg-gray-50" v-model="contact.address.zipcode" />
+            <input type="text" id="zipcode" name="zipcode" class="input-field" v-model="contact.address.zipcode" />
           </InputGroup>
         </div>
         <div class="pt-4">

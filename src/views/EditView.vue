@@ -2,7 +2,6 @@
 import { mapState } from 'pinia';
 import Button from '../components/Button.vue';
 import Form from '../components/Form.vue';
-import InputField from '../components/InputField.vue';
 import InputGroup from '../components/InputGroup.vue';
 import Label from '../components/Label.vue';
 import { useContactStore } from '../stores/ContactStore';
@@ -11,7 +10,6 @@ import { useContactStore } from '../stores/ContactStore';
       Form,
       Label,
       Button,
-      InputField,
       InputGroup,
     },
     data(){
@@ -24,10 +22,6 @@ import { useContactStore } from '../stores/ContactStore';
             suite: "",
             city: "",
             zipcode: "",
-            geo: {
-              lat: "",
-              lng: ""
-            }
           },
           phone: "",
           isFav: false,
@@ -39,8 +33,12 @@ import { useContactStore } from '../stores/ContactStore';
     },
     methods: {
       handleUpdate(){
-        console.log(this.contact);
+        useContactStore().updateContact(this.updatedContact);
+        this.$router.push({ name: 'home' });
       }
+    },
+    mounted(){
+      this.updatedContact = this.contact;
     }
   }
 </script>
@@ -50,32 +48,32 @@ import { useContactStore } from '../stores/ContactStore';
       <Form @submit.prevent="handleUpdate()" method="post">
         <InputGroup>
           <Label labelFor="name" text="Name" />
-          <InputField type="text" name="name" :value="contact.name" isRequired="true" />
+          <input class="input-field" type="text" name="name" v-model="updatedContact.name" isRequired="true" />
         </InputGroup>
         <InputGroup>
           <Label labelFor="email" text="Email" />
-          <InputField type="email" name="email" :value="contact.email" isRequired="true" />
+          <input class="input-field" type="email" name="email" v-model="updatedContact.email" isRequired="true" />
         </InputGroup>
         <InputGroup>
           <Label labelFor="phone" text="Phone" />
-          <InputField type="text" name="phone" :value="contact.phone" isRequired="true" />
+          <input class="input-field" type="text" name="phone" v-model="updatedContact.phone" isRequired="true" />
         </InputGroup>
         <InputGroup>
           <Label labelFor="street" text="Street" />
-          <InputField type="text" name="street" :value="contact.address.street" isRequired="true" />
+          <input class="input-field" type="text" name="street" v-model="updatedContact.address.street" isRequired="true" />
         </InputGroup>
         <div class="grid lg:grid-cols-3 flex-wrap gap-y-4 md:gap-8 col-span-2">
           <InputGroup>
             <Label labelFor="suite" text="Suite" />
-            <InputField type="text" name="suite" :value="contact.address.suite" isRequired="true" />
+            <input class="input-field" type="text" name="suite" v-model="updatedContact.address.suite" isRequired="true" />
           </InputGroup>
           <InputGroup>
             <Label labelFor="city" text="City" />
-            <InputField type="text" name="city" :value="contact.address.city" isRequired="true" />
+            <input class="input-field" type="text" name="city" v-model="updatedContact.address.city" isRequired="true" />
           </InputGroup>
           <InputGroup>
             <Label labelFor="zipcode" text="Zipcode" />
-            <InputField type="text" name="zipcode" :value="contact.address.zipcode" isRequired="true" />
+            <input class="input-field" type="text" name="zipcode" v-model="updatedContact.address.zipcode" isRequired="true" />
           </InputGroup>
         </div>
         <div class="pt-4">

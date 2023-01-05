@@ -3,9 +3,19 @@ import { defineStore } from 'pinia';
 export const useContactStore = defineStore('contacts', {
   // State
     state: () => ({ 
-      // favourites: [],
         deletedContacts: [],
-        contact:{},
+        contact:{
+          id: null,
+          name: "",
+          email: "",
+          address: {
+            street: "",
+            suite: "",
+            zipcode: "",
+          },
+          phone: "",
+          isFav: false,
+        },
         contacts: [
           {
             id: 1,
@@ -108,6 +118,26 @@ export const useContactStore = defineStore('contacts', {
       editContact(contact){
         this.contact = contact;
       },
+      updateContact(contact){
+        this.contacts = this.contacts.map( (item) => {
+          if(contact.id === item.id){
+            item = contact;
+          }
+          return item;
+        });
+        this.contact = {
+          id: null,
+          name: "",
+          email: "",
+          address: {
+            street: "",
+            suite: "",
+            zipcode: "",
+          },
+          phone: "",
+          isFav: false,
+        }
+      },
       deleteContact(id){
         this.deletedContacts.push(...this.contacts.filter( (item) => item.id === id ));
         this.contacts = this.contacts.filter( contact => contact.id !== id);
@@ -128,8 +158,19 @@ export const useContactStore = defineStore('contacts', {
           id,
           ...contact,
         }
-        // console.log(newContact);
         this.contacts.unshift(newContact);
+        this.contact = {
+          id: null,
+          name: "",
+          email: "",
+          address: {
+            street: "",
+            suite: "",
+            zipcode: "",
+          },
+          phone: "",
+          isFav: false,
+        }
       }
     },
 
