@@ -121,6 +121,15 @@ export const useContactStore = defineStore('contacts', {
       restoreContact(contact){
         this.contacts.push(contact);
         this.deletedContacts = this.deletedContacts.filter( (item) => item.id !== contact.id);
+      },
+      createContact(contact){
+        const id = this.totalContacts + 1;
+        const newContact = {
+          id,
+          ...contact,
+        }
+        // console.log(newContact);
+        this.contacts.unshift(newContact);
       }
     },
 
