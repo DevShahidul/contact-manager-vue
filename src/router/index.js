@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import CreateView from '../views/CreateView.vue'
+import ContactForm from '../views/ContactFormView.vue'
 import DeletedView from '../views/DeletedView.vue'
 // import EditView from '../views/EditView.vue'
 import Favourites from '../views/FavouritesView.vue'
@@ -27,12 +27,12 @@ const router = createRouter({
     {
       path: '/create',
       name: 'create',
-      component: CreateView
+      component: ContactForm
     },
     {
       path: '/edit',
       name: 'edit',
-      component: CreateView
+      component: ContactForm
     },
     {
       path: '/:pathMatch(.*)*',

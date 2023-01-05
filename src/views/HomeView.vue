@@ -24,15 +24,15 @@ import { useContactStore } from '../stores/ContactStore';
 <template>
   <div class="container max-w-7xl">
     <div class="divide-y divide-slate-100">
-      <div class="space-y-3 py-6">
+      <div class="space-x-3 py-6 flex">
         <h2 class="text-2xl text-gray-700">
-          <span class="font-bold">Total contacts:</span> {{ totalContacts }}
+          <span class="font-bold">Contacts:</span> {{ totalContacts }}
         </h2>
         <h2 class="text-2xl text-gray-700">
-          <span class="font-bold">Favourite contacts:</span> {{ totalFavourites }}
+          <span class="font-bold">{{totalFavourites > 1 ? 'Favourites' : 'Favourite'}}:</span> {{ totalFavourites }}
         </h2>
         <h2 class="text-2xl text-gray-700">
-          <span class="font-bold">Deleted contacts:</span> {{ totalDeletedContacts }}
+          <span class="font-bold">Deleted:</span> {{ totalDeletedContacts }}
         </h2>
       </div>
       <List>
