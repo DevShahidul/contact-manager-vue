@@ -12,8 +12,16 @@
           handleEdit(){
             useContactStore().editContact(this.contact);
             this.$router.push({ name: 'edit' });
+          },
+          handleRestore(){
+            useContactStore().restoreContact(this.contact);
           }
         },
+        computed: {
+          isDelete() {
+            return this.$route.path === '/deleted'
+          }
+        }
     }
 </script>
 
@@ -26,22 +34,27 @@
         <dl class="mt-3 flex flex-col text-sm leading-6 font-medium">
           <div class="absolute top-0 right-0 flex items-center space-x-3">
             <!-- <dd>{{ contact.isFav ? 'Favourite' : '' }}</dd> -->
-            <button @click="handleFav()" :class="[ 'cursor-pointer border-0 transition', contact.isFav ? 'text-sky-500' : 'text-gray-500']">
-              <span class="sr-only">Star rating</span>
-              <svg width="16" height="20" fill="currentColor">
-                <path d="M7.05 3.691c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.372 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.539 1.118l-2.8-2.034a1 1 0 00-1.176 0l-2.8 2.034c-.783.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.363-1.118L.98 9.483c-.784-.57-.381-1.81.587-1.81H5.03a1 1 0 00.95-.69L7.05 3.69z" />
-              </svg>
-            </button>
-            <button @click="handleEdit()" class="px-1 py-1 flex items-center justify-center border-b-2 border-gray-500 text-gray-500 font-bold hover:text-sky-500 hover:border-sky-500 transition">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" />
-              </svg>
-            </button>
-            <button @click="handleDelete()" class="text-red-500 hover:text-red-600 transition">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
-              </svg>
-            </button>
+            <template v-if="!isDelete">
+              <button @click="handleFav()" :class="[ 'cursor-pointer border-0 transition', contact.isFav ? 'text-sky-500' : 'text-gray-500']">
+                <span class="sr-only">Star rating</span>
+                <svg width="16" height="20" fill="currentColor">
+                  <path d="M7.05 3.691c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.372 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.539 1.118l-2.8-2.034a1 1 0 00-1.176 0l-2.8 2.034c-.783.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.363-1.118L.98 9.483c-.784-.57-.381-1.81.587-1.81H5.03a1 1 0 00.95-.69L7.05 3.69z" />
+                </svg>
+              </button>
+              <button @click="handleEdit()" class="px-1 py-1 flex items-center justify-center border-b-2 border-gray-500 text-gray-500 font-bold hover:text-sky-500 hover:border-sky-500 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" />
+                </svg>
+              </button>
+              <button @click="handleDelete()" class="text-red-500 hover:text-red-600 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                </svg>
+              </button>
+            </template>
+            <template v-else>
+              <button @click="handleRestore()" class="px-4 py-1 bg-green-600 hover:bg-green-500 text-white rounded transition">Restore</button>
+            </template>
           </div>
           <div class="flex space-x-2">
             <dt class="font-bold w-28">Email</dt>

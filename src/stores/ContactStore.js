@@ -118,6 +118,10 @@ export const useContactStore = defineStore('contacts', {
           return contact;
         })
       },
+      restoreContact(contact){
+        this.contacts.push(contact);
+        this.deletedContacts = this.deletedContacts.filter( (item) => item.id !== contact.id);
+      }
     },
 
     // Getters
